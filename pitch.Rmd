@@ -1,0 +1,55 @@
+---
+title: "Pitch Presentation"
+author: "Teodor Gottfried"
+date: "August 2020"
+output:
+  slidy_presentation: default
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(e1071)
+library(ggplot2)
+wine<-read.csv("wine.csv")
+log.model <-glm(label~alcohol+residual.sugar, family = binomial(link="logit"), wine)
+wine$label <- as.factor(wine$label)
+```
+##Course Project: Shiny Application and Reproducible Pitch
+## Red or White?
+###Problems with the choice of wine?
+![wine-choose](wine-red-wine.jpg)
+
+## My app can help you to decide:
+By logistic regression app help to decide which wine to choose. The app uses only terms that are understandable to the customer:
+      
+* Alcohol - defined as amount of alcohol by volume
+* Residual sugar - refers to any natural grape sugars that are left over after the ceasing of fermantation regardless if they are in purpose or not
+```{r}
+summary(log.model)
+```
+
+
+## About dataset:
+More than 6000 observation of wine with 13 variables. App choose only two! data from :
+[MLD](http://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/)
+```{r echo = TRUE}
+str(wine)
+```
+
+## EDA 1
+Histogram of alcohol from the wine data. Color by red and white wines.
+```{r echo=FALSE}
+pl <- ggplot(wine,aes(x=alcohol)) + geom_histogram(aes(fill=label),color='black',bins=50)
+pl + scale_fill_manual(values = c('#ae4554','#faf7ea')) + theme_bw()
+```
+
+## EDA 2
+Histogram of residual sugar from the wine data. Color by red and white wines.
+```{r echo=FALSE}
+pl <- ggplot(wine,aes(x=residual.sugar)) + geom_histogram(aes(fill=label),color='black',bins=50)
+pl + scale_fill_manual(values = c('#ae4554','#faf7ea')) + theme_bw()
+```
+
+## The End
+![thank-you](Thank-you-word-cloud.jpg)
